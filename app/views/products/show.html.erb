@@ -1,3 +1,16 @@
-<h1><%= @product.title %></h1>
-<p><%= @product.description %></p>
-<span><%= @product.price %>$</span>
+<div>
+    <%= image_tag @product.photo, width: 200 if @product.photo.attached? %>
+</div>
+
+<div>
+    <h1 class='title'><%= @product.title %></h1>
+    <p class='description'><%= @product.description %></p>
+    <span class='price'><%= @product.price %>$</span>
+
+    <%= link_to 'Editar producto', edit_product_path(@product)%>
+
+    <%= link_to 'Eliminar producto', product_path(@product), data: {
+        turbo_method: :delete,
+        turbo_confirm: 'Estas seguro que deseas eliminar el producto'
+    }%>
+</div>
