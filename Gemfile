@@ -41,6 +41,10 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+# Postgresql full text search
+gem "pg_search", "~> 2.3"
+
+gem "webrick", "~> 1.8.2"
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
@@ -59,6 +63,9 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 
+  # try fixing bug in @products = @products.where(category_id: params[:category_id])
+  gem 'activejob-cancel', '~> 0.3.2' # not working
+
   gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
 end
 
@@ -67,3 +74,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+

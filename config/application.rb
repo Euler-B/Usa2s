@@ -23,5 +23,17 @@ module VendeloCursoRailsPrinciantes
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    #
+    # for fixing a problem with fixture
+    config.active_record.verify_foreign_keys_for_fixtures = false
+    #
+    # available languages
+    config.i18n.available_locales = [:en, :es]
+    #
+    # lenguages for default
+    config.i18n.default_locale = :es
+
+    # allow multiquery
+    config.active_record.async_query_executor = :global_thread_pool
   end
 end
