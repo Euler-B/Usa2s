@@ -1,15 +1,17 @@
-<h2>Productos:</h2>
+<%= turbo_frame_tag 'categories' do %>
+    <h1><%= t('.title') %></h1>
 
-<% @products.each do |product| %>
-    <%= link_to product_path(product.id), class: 'product' do %>
-        <div>
-            <%= image_tag product.photo, width: 100 if product.photo.attached?%>
-        </div>
-        <div>
-            <h3><%= product.title %></h3>
-            <span><%= product.price %>$</span>
-            <%# cuando colocamos en el lenguaje de etiquetas el signo igual es porque necesito mostrar en mi pagina 
-            el resultado del comando, cuando no lo hago esto se me proceso por debajo sin una salida por app web %>
-        </div>
+    <%= form_with url: products_path, method: :get do |form| %>
+        <%= form.text_field :query_text, placeholder: t('.query_search'), onChange: 'this.form.requestSubmit()', value: params[:query_text] %>
+        <%= form.number_field :min_price, placeholder: t('.min_price'), onChange: 'this.form.requestSubmit()', value: params[:min_price] %>
+        <%= form.number_field :max_price, placeholder: t('.max_price'), onChange: 'this.form.requestSubmit()', value: params[:max_price] %>
+        <%= form.select :order_by, options_for_select([["Recientes", "newest"], ["Mas caros", "expensive"],
+        ["Mas baratos", "cheapest"]], params[:order_by]), {}, { onChange: 'this.form.requestSubmit()' } %>
     <% end %>
+
+    <%= link_to t('.all'), products_path %>
+
+    <%= render partial: 'category', collection: @categories %> 
+
+    <%= render partial: 'product', collection: @products %> <%# Investigar que hace esta linea de codigo %>
 <% end %>

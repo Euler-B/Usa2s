@@ -53,6 +53,9 @@ GEM
     activejob (7.1.3.2)
       activesupport (= 7.1.3.2)
       globalid (>= 0.3.6)
+    activejob-cancel (0.3.2)
+      activejob (>= 4.2.0)
+      activesupport (>= 4.2.0)
     activemodel (7.1.3.2)
       activesupport (= 7.1.3.2)
     activerecord (7.1.3.2)
@@ -154,6 +157,9 @@ GEM
     nokogiri (1.16.3-x86_64-linux)
       racc (~> 1.4)
     pg (1.5.6)
+    pg_search (2.3.6)
+      activerecord (>= 5.2)
+      activesupport (>= 5.2)
     psych (5.1.2)
       stringio
     public_suffix (5.0.5)
@@ -233,7 +239,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webrick (1.8.1)
+    webrick (1.8.2)
     websocket (1.2.10)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
@@ -251,6 +257,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  activejob-cancel (~> 0.3.2)
   bootsnap
   capybara
   debug
@@ -258,6 +265,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   pg (~> 1.1)
+  pg_search (~> 2.3)
   puma (>= 5.0)
   rails (~> 7.1.3, >= 7.1.3.2)
   selenium-webdriver
@@ -266,6 +274,7 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console
+  webrick (~> 1.8.2)
 
 RUBY VERSION
    ruby 3.1.4p223
