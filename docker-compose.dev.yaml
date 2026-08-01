@@ -1,0 +1,56 @@
+# Local development environment for a Rails app running in Docker.
+#
+# Usage:
+#   docker compose -f docker-compose.dev.yml build
+#   docker compose -f docker-compose.dev.yml up -d
+#   docker compose -f docker-compose.dev.yml exec app bash
+#
+# Once inside the "app" container you have Ruby, Bundler, git and build
+# tools available, so you can run bundle install/update, rails commands,
+# etc. without installing anything on the host machine.
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    working_dir: /rails
+    volumes:
+      # Mount the project source so edits on the host are reflected
+      # immediately inside the container (and vice versa).
+      - .:/rails
+      # Named volume for installed gems. Keeping this separate from the
+      # bind mount above avoids mixing host files with Linux-compiled
+      # gem binaries, and lets gems persist across container rebuilds.
+      - bundle_cache:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: development
+      # Adjust user/password/host/db name to match your app's config
+      DATABASE_URL: postgres://postgres:postgres@db:5432/app_development
+    depends_on:
+      - db
+    # Keeps the container running so you can attach a shell with
+    # `docker compose exec app bash` instead of the container exiting
+    # immediately after start.
+    tty: true
+    stdin_open: true
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      # Development-only credentials. Do not reuse these in production.
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app_development
+    volumes:
+      # Persists database data across `docker compose down` (but not
+      # `docker compose down -v`, which removes volumes too).
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  bundle_cache:
+  db_data:
